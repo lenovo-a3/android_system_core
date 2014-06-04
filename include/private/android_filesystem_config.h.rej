@@ -1,0 +1,25 @@
+diff a/include/private/android_filesystem_config.h b/include/private/android_filesystem_config.h	(rejected hunks)
+@@ -99,6 +99,11 @@
+ #define AID_SENSORS       3011 /* access to /dev/socket/sensor_ctl_socket & QCCI/QCSI */
+ #define AID_IMS           3012  /* can read/write /dev/socket/imsrtp */
+ 
++#ifdef MTK_G_MT6589
++#define AID_CCCI          9996
++#define AID_NVRAM         9997
++#endif
++
+ #if defined(MOTOROLA_UIDS)
+ #define AID_MOT_OSH       5000  /* OSH */
+ #define AID_MOT_ACCY      9000  /* access to accessory */
+@@ -191,6 +196,11 @@ static const struct android_id_info android_ids[] = {
+     { "ims", AID_IMS, },
+     { "net_bt_stack",  AID_NET_BT_STACK, },
+ 
++#ifdef MTK_G_MT6589
++    { "ccci",          AID_CCCI, },
++    { "nvram",         AID_NVRAM, },
++#endif
++
+ #if defined(MOTOROLA_UIDS)
+     { "mot_osh",   AID_MOT_OSH, },
+     { "mot_accy",  AID_MOT_ACCY, },
