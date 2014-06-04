@@ -104,6 +104,11 @@
 #define AID_RFS           3012  /* Remote Filesystem for peripheral processors */
 #define AID_RFS_SHARED    3013  /* Shared files for Remote Filesystem for peripheral processors  */
 
+#ifdef MTK_G_MT6589
+#define AID_NVRAM         9997
+#define AID_CCCI          9996
+#endif
+
 #define AID_EVERYBODY     9997  /* shared between all apps in the same profile */
 #define AID_MISC          9998  /* access to misc storage */
 #define AID_NOBODY        9999
@@ -193,6 +198,11 @@ static const struct android_id_info android_ids[] = {
 
     { "rfs",           AID_RFS, },
     { "rfs_shared",    AID_RFS_SHARED, },
+
+#ifdef MTK_G_MT6589
+    { "nvram",         AID_NVRAM, },
+    { "ccci",          AID_CCCI, },
+#endif
 
     { "everybody",     AID_EVERYBODY, },
     { "misc",          AID_MISC, },
