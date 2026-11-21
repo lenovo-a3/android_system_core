@@ -105,7 +105,7 @@
 #define AID_RFS_SHARED    3013  /* Shared files for Remote Filesystem for peripheral processors  */
 
 #ifdef MTK_G_MT6589
-#define AID_NVRAM         9997
+#define AID_NVRAM         9995  /* MTK nvram; 9997 on stock, but that is AID_EVERYBODY in L */
 #define AID_CCCI          9996
 #endif
 
