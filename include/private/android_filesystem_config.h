@@ -107,7 +107,7 @@
 #endif
 
 #ifdef MTK_G_MT6589
-#define AID_NVRAM         9997
+#define AID_NVRAM         9995  /* MTK nvram; 9997 on stock, but that is AID_EVERYBODY in L */
 #define AID_CCCI          9996
 #endif
 
