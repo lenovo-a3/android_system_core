@@ -600,6 +600,9 @@ int LogKlog::log(const char *buf, size_t len) {
                    ++et;
                    --taglen;
                }
+               if (!taglen || !*et) { // no ']' before the end
+                   break;
+               }
             }
         }
         for(cp = et; taglen && isspace(*cp); ++cp, --taglen);
@@ -612,7 +615,8 @@ int LogKlog::log(const char *buf, size_t len) {
             p = cp + 1;
         } else if (taglen) {
             size = et - bt;
-            if ((*bt == *cp) && fast<strncmp>(bt + 1, cp + 1, size - 1)) {
+            if ((taglen > size) && // enough room for the match
+                    (*bt == *cp) && fast<strncmp>(bt + 1, cp + 1, size - 1)) {
                 // <PRI>[<TIME>] <tag>_host '<tag>.<num>' : message
                 if (!fast<strncmp>(bt + size - 5, "_host", 5)
                         && !fast<strncmp>(bt + 1, cp + 1, size - 6)) {
@@ -640,7 +644,7 @@ int LogKlog::log(const char *buf, size_t len) {
                         p = cp + 1;
                     }
                 }
-            } else if (isspace(cp[size])) {
+            } else if ((taglen > size) && isspace(cp[size])) {
                 cp += size;
                 taglen -= size;
                 while (--taglen && isspace(*++cp));
@@ -650,12 +654,13 @@ int LogKlog::log(const char *buf, size_t len) {
                     etag = et;
                     p = cp + 1;
                 }
-            } else if (cp[size] == ':') {
+            } else if ((taglen > size) && (cp[size] == ':')) {
                 // <PRI>[<TIME>] <tag> <tag> : message
                 tag = bt;
                 etag = et;
                 p = cp + size + 1;
-            } else if ((cp[size] == '.') || isdigit(cp[size])) {
+            } else if ((taglen > size) &&
+                    ((cp[size] == '.') || isdigit(cp[size]))) {
                 // <PRI>[<TIME>] <tag> '<tag>.<num>' : message
                 // <PRI>[<TIME>] <tag> '<tag><num>' : message
                 const char *b = cp;
@@ -706,7 +711,7 @@ int LogKlog::log(const char *buf, size_t len) {
     //   eg: [143:healthd]healthd -> [143:healthd]
     taglen = etag - tag;
     // Mediatek-special printk induced stutter
-    const char *mp = strnrchr(tag, ']', taglen);
+    const char *mp = strnrchr(tag, taglen, ']');
     if (mp && (++mp < etag)) {
         size_t s = etag - mp;
         if (((s + s) < taglen) && !fast<memcmp>(mp, mp - 1 - s, s)) {
