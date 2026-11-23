@@ -132,10 +132,9 @@
 #define AID_SENSORS       3011 /* access to /dev/socket/sensor_ctl_socket & QCCI/QCSI */
 
 
-#ifdef MTK_G_MT6589
+/* MTK (a3). Not behind MTK_G_MT6589: Soong-built bionic (getpwnam) never sees BOARD_GLOBAL_CFLAGS. */
 #define AID_NVRAM         9995  /* MTK nvram; 9997 on stock, but that is AID_EVERYBODY in L */
 #define AID_CCCI          9996
-#endif
 
 #define AID_EVERYBODY     9997  /* shared between all apps in the same profile */
 #define AID_MISC          9998  /* access to misc storage */
@@ -247,10 +246,8 @@ static const struct android_id_info android_ids[] = {
     { "rfs_old",           AID_RFS_OLD, },
     { "rfs_shared_old",    AID_RFS_SHARED_OLD, },
 
-#ifdef MTK_G_MT6589
     { "nvram",         AID_NVRAM, },
     { "ccci",          AID_CCCI, },
-#endif
 
     { "everybody",     AID_EVERYBODY, },
     { "misc",          AID_MISC, },
